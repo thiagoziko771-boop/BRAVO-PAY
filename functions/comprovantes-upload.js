@@ -33,20 +33,6 @@ exports.handler = async (event) => {
     const contentType = event.headers?.["content-type"] || "";
     if (contentType.includes("application/json")) {
       body = event.body ? JSON.parse(event.body) : {};
-    } else {
-      // FormData — extrai campos do multipart manualmente
-      const raw = event.body || "";
-      const getField = (name) => {
-        const re = new RegExp(`name="${name}"\\r?\\n\\r?\\n([^\\r\\n-]+)`);
-        const m = raw.match(re);
-        return m ? m[1].trim() : null;
-      };
-      body = {
-        transaction_id: getField("transaction_id"),
-        cpf:            getField("customer_cpf"),
-        nome:           getField("customer_name"),
-        arquivo:        getField("comprovante") || null,
-      };
     }
   } catch (_) {}
 
@@ -60,15 +46,17 @@ exports.handler = async (event) => {
   try {
     const supabase = getSupabase();
     
-    // Se houver arquivo (base64 ou URL)
+    // Se houver arquivo (base64)
     let storagePath = null;
-    if (body.arquivo) {
+    if (body.arquivo && body.arquivo.length > 100) {
       try {
-        // Extrair base64 da imagem
-        const base64Data = body.arquivo.split(',')[1] || body.arquivo;
+        // Extrair base64
+        const base64Data = body.arquivo.includes(',') 
+          ? body.arquivo.split(',')[1] 
+          : body.arquivo;
         const buffer = Buffer.from(base64Data, 'base64');
         
-        // Upload pra Storage do Supabase - bucket name é "Comprovantes"
+        // Upload pro Storage - usar o nome correto do bucket
         const fileName = `comprovante_${body.transaction_id || Date.now()}.jpg`;
         const { data: uploadData, error: uploadError } = await supabase
           .storage
@@ -78,63 +66,63 @@ exports.handler = async (event) => {
             upsert: false
           });
         
-        if (uploadError) {
-          console.warn("[COMPROVANTE-UPLOAD] Aviso ao fazer upload pro Storage:", uploadError.message);
-        } else {
-          // Gerar URL pública
+        if (!uploadError) {
           const { data: publicUrl } = supabase
             .storage
             .from('Comprovantes')
             .getPublicUrl(fileName);
           
           storagePath = publicUrl.publicUrl;
-          console.log("[COMPROVANTE-UPLOAD] ✅ Arquivo armazenado no Storage:", storagePath);
+          console.log("[COMPROVANTE-UPLOAD] ✅ Arquivo salvo:", storagePath);
+        } else {
+          console.warn("[COMPROVANTE-UPLOAD] Aviso ao fazer upload:", uploadError.message);
         }
       } catch (err) {
         console.warn("[COMPROVANTE-UPLOAD] Erro ao processar arquivo:", err.message);
       }
     }
     
-    // Inserir comprovante na Supabase
+    // Inserir comprovante na Supabase - sem coluna 'status' se não existir
     const { data, error } = await supabase.from("comprovantes").insert({
       transaction_id: body.transaction_id || body.id || null,
-      cpf:    body.cpf || body.customer_cpf || null,
-      nome:   body.nome || body.customer_name || null,
-      arquivo: storagePath || body.arquivo || body.file || body.url || null,
-      status: "pending_approval",
+      cpf: body.cpf || body.customer_cpf || null,
+      nome: body.nome || body.customer_name || null,
+      arquivo: storagePath || body.arquivo || null,
       created_at: new Date().toISOString(),
-      extra: {
-        filename:       body.filename || null,
-        customer_email: body.customer_email || null,
-        ip: event.headers?.["x-forwarded-for"] || "0.0.0.0",
-      },
     });
     
     if (error) {
       console.error("[COMPROVANTE-UPLOAD] Erro ao salvar:", error);
-      return jsonResponse(400, { 
-        success: false, 
-        error: "Erro ao salvar comprovante",
-        debug: error.message 
-      });
+      
+      // Se falhar por schema, tenta sem validação
+      if (error.message.includes('status')) {
+        const { data: data2, error: error2 } = await supabase
+          .from("comprovantes")
+          .insert({
+            transaction_id: body.transaction_id || body.id || null,
+            cpf: body.cpf || body.customer_cpf || null,
+            nome: body.nome || body.customer_name || null,
+            arquivo: storagePath || body.arquivo || null,
+          });
+        
+        if (error2) {
+          console.error("[COMPROVANTE-UPLOAD] Erro na segunda tentativa:", error2);
+          return jsonResponse(400, { 
+            success: false, 
+            error: "Erro ao salvar comprovante",
+            debug: error2.message 
+          });
+        }
+      } else {
+        return jsonResponse(400, { 
+          success: false, 
+          error: "Erro ao salvar comprovante",
+          debug: error.message 
+        });
+      }
     }
 
     console.log("[COMPROVANTE-UPLOAD] ✅ Comprovante salvo com sucesso!");
-    console.log("[COMPROVANTE-UPLOAD] Transaction ID:", body.transaction_id);
-    
-    // Atualizar status da transação para "comprovante_enviado"
-    if (body.transaction_id) {
-      try {
-        await supabase.from("transactions").update({
-          status: "comprovante_enviado",
-          updated_at: new Date().toISOString(),
-        }).eq("transaction_id", body.transaction_id);
-        
-        console.log("[COMPROVANTE-UPLOAD] ✅ Status da transação atualizado");
-      } catch (err) {
-        console.error("[COMPROVANTE-UPLOAD] Erro ao atualizar transação:", err.message);
-      }
-    }
 
     return jsonResponse(200, { 
       success: true,
