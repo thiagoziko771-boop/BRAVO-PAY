@@ -360,6 +360,9 @@ exports.handler = async (event) => {
       invoice_url: invoiceUrl,
       invoiceUrl,
       status: "pending",
+      // Adicionar info pro frontend rastrear no Facebook
+      amount: amountReais,
+      trackingPixel: true
     });
 
   } catch (err) {

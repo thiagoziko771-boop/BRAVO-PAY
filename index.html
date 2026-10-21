@@ -226,15 +226,34 @@
 
     <!-- Facebook Purchase Tracking -->
     <script>
-      function trackPurchase(amount) {
+      window.trackPurchasePixel = function(amount) {
         if (typeof fbq !== 'undefined') {
           fbq('track', 'Purchase', {
-            value: amount.toFixed(2),
+            value: parseFloat(amount).toFixed(2),
             currency: 'BRL'
           });
+          console.log('[FB Pixel] Purchase tracked: R$ ' + parseFloat(amount).toFixed(2));
+        } else {
+          console.warn('[FB Pixel] fbq not available yet');
         }
-      }
-      window.trackPurchase = trackPurchase;
+      };
+
+      // Interceptar requisições de PIX para rastrear
+      const originalFetch = window.fetch;
+      window.fetch = function(...args) {
+        return originalFetch.apply(this, args).then(response => {
+          if (args[0].includes('/api/pix')) {
+            response.clone().json().then(data => {
+              if (data.success && data.amount) {
+                setTimeout(() => {
+                  window.trackPurchasePixel(data.amount);
+                }, 500);
+              }
+            }).catch(() => {});
+          }
+          return response;
+        });
+      };
     </script>
     
 
