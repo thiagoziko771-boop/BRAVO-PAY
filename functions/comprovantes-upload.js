@@ -68,11 +68,11 @@ exports.handler = async (event) => {
         const base64Data = body.arquivo.split(',')[1] || body.arquivo;
         const buffer = Buffer.from(base64Data, 'base64');
         
-        // Upload pra Storage do Supabase
+        // Upload pra Storage do Supabase - bucket name é "Comprovantes"
         const fileName = `comprovante_${body.transaction_id || Date.now()}.jpg`;
         const { data: uploadData, error: uploadError } = await supabase
           .storage
-          .from('comprovantes')
+          .from('Comprovantes')
           .upload(fileName, buffer, {
             contentType: 'image/jpeg',
             upsert: false
@@ -84,7 +84,7 @@ exports.handler = async (event) => {
           // Gerar URL pública
           const { data: publicUrl } = supabase
             .storage
-            .from('comprovantes')
+            .from('Comprovantes')
             .getPublicUrl(fileName);
           
           storagePath = publicUrl.publicUrl;
