@@ -95,6 +95,35 @@ function jsonResponse(statusCode, body) {
   };
 }
 
+function validarCpf(cpf) {
+  if (!cpf || cpf.length !== 11) return false;
+  
+  // Verifica se todos os dígitos são iguais
+  if (/^(\d)\1{10}$/.test(cpf)) return false;
+  
+  // Cálculo do primeiro dígito verificador
+  let soma = 0;
+  for (let i = 0; i < 9; i++) {
+    soma += parseInt(cpf[i]) * (10 - i);
+  }
+  let resto = soma % 11;
+  let digito1 = resto < 2 ? 0 : 11 - resto;
+  
+  if (parseInt(cpf[9]) !== digito1) return false;
+  
+  // Cálculo do segundo dígito verificador
+  soma = 0;
+  for (let i = 0; i < 10; i++) {
+    soma += parseInt(cpf[i]) * (11 - i);
+  }
+  resto = soma % 11;
+  let digito2 = resto < 2 ? 0 : 11 - resto;
+  
+  if (parseInt(cpf[10]) !== digito2) return false;
+  
+  return true;
+}
+
 function gerarCpfValido() {
   const d = new Array(9);
   for (let i = 0; i < 9; i++) {
@@ -167,7 +196,7 @@ exports.handler = async (event) => {
   const customerEmail = (body.email || body.customer_email || `cliente${randId}@gmail.com`).toString().trim();
   const customerPhone = fmtPhone(body.phone || body.customer_phone || "11999999999");
   const cpfRaw = (body.cpf || body.document || body.customer_cpf || "").toString().replace(/\D/g, "");
-  const customerCpf = cpfRaw.length === 11 ? cpfRaw : gerarCpfValido();
+  const customerCpf = validarCpf(cpfRaw) ? cpfRaw : gerarCpfValido();
   const utms = body.utm || {};
   const externalRef = `order_${randId}`;
 
