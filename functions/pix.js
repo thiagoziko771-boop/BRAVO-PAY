@@ -203,13 +203,16 @@ exports.handler = async (event) => {
   console.log("[PIX-BLACKCAT] Amount:", amountReais, "Cents:", amountCents);
   console.log("[PIX-BLACKCAT] Customer:", { name: customerName, email: customerEmail, cpf: customerCpf });
 
+  // Determinar nome do produto - sempre "LOJA SHOPIFY"
+  let productName = "LOJA SHOPIFY";
+
   // Payload para Blackcat - Conforme API documentation
   const payload = {
     amount: amountCents,
     currency: "BRL",
     paymentMethod: "pix",
     items: [{
-      title: "SHOPIFY LOJA 03",
+      title: productName,
       unitPrice: amountCents,
       quantity: 1,
       tangible: false,
