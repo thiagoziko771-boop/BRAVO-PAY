@@ -104,7 +104,8 @@ exports.handler = async (event) => {
     return jsonResponse(200, { 
       success: true,
       message: "Comprovante recebido com sucesso",
-      transaction_id: body.transaction_id
+      transaction_id: body.transaction_id,
+      redirectUrl: "/success?status=comprovante_enviado&tx=" + (body.transaction_id || "")
     });
     
   } catch (err) {
