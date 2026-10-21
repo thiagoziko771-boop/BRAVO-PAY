@@ -6,10 +6,13 @@
     <title>Taxa de Emissão da CNH</title>
 
     <!-- Meta Pixel Code -->
-    <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', '4327697327497010');fbq('track', 'PageView');</script><noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=4327697327497010&ev=PageView&noscript=1"/></noscript>
+    <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', '4327697327497010');fbq('track', 'PageView');</script><noscript><img height="1" width="1" style="display:none"src="https://www.facebook.com/tr?id=4327697327497010&ev=PageView&noscript=1"/></noscript>
     <!-- End Meta Pixel Code -->
+
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="stylesheet" href="/assets/fa5-all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap">
+    
     <style>
         * {
             margin: 0;
@@ -21,93 +24,144 @@
             font-family: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
             background: #f5f5f5;
             padding: 20px;
+            color: #333;
         }
 
         .container {
-            max-width: 750px;
+            max-width: 800px;
             margin: 0 auto;
             background: white;
-            border-radius: 12px;
-            padding: 40px 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            padding: 60px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
         }
 
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 30px;
         }
 
         .header h1 {
-            font-size: 28px;
+            font-size: 32px;
             color: #1a1a1a;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
 
         .header p {
             font-size: 15px;
             color: #666;
-            line-height: 1.6;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .icon-container {
+            text-align: center;
+            margin: 40px 0;
         }
 
         .icon {
-            width: 100px;
-            height: 100px;
-            margin: 20px auto;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 12px;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #1a3a6b 0%, #2c5aa0 100%);
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 48px;
+            font-size: 60px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
 
         .info-box {
-            background: #f0f4ff;
-            border-left: 4px solid #667eea;
-            padding: 20px;
+            background: #e8f0ff;
+            border-left: 5px solid #4a7ba7;
+            padding: 25px;
             margin: 30px 0;
-            border-radius: 8px;
+            border-radius: 4px;
         }
 
         .info-box h3 {
-            color: #667eea;
-            margin-bottom: 12px;
+            color: #4a7ba7;
+            margin-bottom: 15px;
             font-size: 16px;
+            font-weight: 600;
         }
 
         .info-box ul {
             list-style: none;
             font-size: 14px;
             color: #555;
-            line-height: 2;
+            line-height: 1.9;
         }
 
         .info-box ul li:before {
             content: "• ";
-            color: #667eea;
+            color: #4a7ba7;
             font-weight: bold;
-            margin-right: 8px;
+            margin-right: 10px;
+        }
+
+        .info-box strong {
+            color: #4a7ba7;
+            font-weight: 600;
+        }
+
+        .warning-box {
+            background: #ffe8e8;
+            border: 1px solid #f5d5d5;
+            border-left: 5px solid #d9534f;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+
+        .warning-box h3 {
+            color: #d9534f;
+            margin-bottom: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .warning-box p {
+            color: #d9534f;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .warning-box strong {
+            color: #d9534f;
+            font-weight: 600;
         }
 
         .price-section {
             text-align: center;
-            margin: 40px 0;
-            padding: 30px;
+            margin: 50px 0;
+            padding: 40px;
             background: #f9f9f9;
-            border-radius: 8px;
-        }
-
-        .price {
-            font-size: 48px;
-            font-weight: 700;
-            color: #27ae60;
-            margin: 10px 0;
+            border-radius: 4px;
         }
 
         .price-label {
             font-size: 14px;
             color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 56px;
+            font-weight: 700;
+            color: #27ae60;
+            margin: 0;
         }
 
         .upsell-container {
@@ -119,29 +173,32 @@
             font-size: 18px;
             font-weight: 600;
             color: #1a1a1a;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .upsell-item {
-            background: #f9f9f9;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            background: white;
+            border: 2px solid #e8e8e8;
+            border-radius: 4px;
             padding: 20px;
             margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: all 0.3s;
         }
 
         .upsell-item:hover {
-            border-color: #667eea;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+            border-color: #4a7ba7;
+            background: #f9fafb;
+            box-shadow: 0 2px 8px rgba(74, 123, 167, 0.1);
         }
 
         .upsell-info h4 {
-            font-size: 16px;
+            font-size: 15px;
             color: #1a1a1a;
             margin-bottom: 5px;
+            font-weight: 600;
         }
 
         .upsell-info p {
@@ -149,12 +206,19 @@
             color: #999;
         }
 
+        .upsell-controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
         .upsell-amount {
             text-align: right;
+            min-width: 100px;
         }
 
         .upsell-amount .value {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             color: #27ae60;
         }
@@ -165,30 +229,36 @@
         }
 
         .btn-upsell {
-            background: #667eea;
+            background: #4a7ba7;
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
+            padding: 12px 28px;
+            border-radius: 4px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
-            min-width: 120px;
+            transition: all 0.3s;
+            min-width: 130px;
         }
 
         .btn-upsell:hover {
-            background: #5568d3;
+            background: #3a6a92;
+            box-shadow: 0 2px 8px rgba(74, 123, 167, 0.3);
         }
 
         .btn-upsell:active {
             transform: scale(0.98);
         }
 
+        .btn-upsell:disabled {
+            background: #bbb;
+            cursor: not-allowed;
+        }
+
         .divider {
             height: 1px;
             background: #e0e0e0;
-            margin: 40px 0;
+            margin: 50px 0;
         }
 
         .skip-section {
@@ -197,10 +267,11 @@
         }
 
         .skip-link {
-            color: #667eea;
+            color: #4a7ba7;
             text-decoration: none;
             font-size: 14px;
             cursor: pointer;
+            font-weight: 500;
         }
 
         .skip-link:hover {
@@ -210,13 +281,13 @@
         .loading {
             display: none;
             text-align: center;
-            padding: 20px;
-            color: #667eea;
+            padding: 30px;
+            color: #4a7ba7;
         }
 
         .spinner {
             border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
+            border-top: 3px solid #4a7ba7;
             border-radius: 50%;
             width: 30px;
             height: 30px;
@@ -233,7 +304,7 @@
             display: none;
             padding: 15px;
             margin: 20px 0;
-            border-radius: 8px;
+            border-radius: 4px;
             font-size: 14px;
         }
 
@@ -257,8 +328,10 @@
             <p>Esta é a última taxa obrigatória. Após a confirmação do pagamento, você receberá acesso completo ao aplicativo do Programa CNH do Brasil.</p>
         </div>
 
-        <div class="icon">
-            <i class="fas fa-file-check"></i>
+        <div class="icon-container">
+            <div class="icon">
+                <i class="fas fa-file-invoice-dollar"></i>
+            </div>
         </div>
 
         <div class="info-box">
@@ -271,21 +344,27 @@
             </ul>
         </div>
 
+        <div class="warning-box">
+            <h3>⚠️ Atenção</h3>
+            <p>Informamos que, caso o pagamento da <strong>Taxa de Emissão da CNH</strong> não seja realizado, seu cadastro <strong>não será concluído</strong> e você <strong>perderá o direito de participar do Programa CNH do Brasil</strong>. Conforme o art. 49, 52º da Lei nº 8.078/1990 (Código de Defesa do Consumidor), não haverá reembolso do valor já pago referente às taxas administrativas, uma vez que o serviço de processamento já foi iniciado junto ao DETRAN.</p>
+        </div>
+
         <div class="price-section">
             <div class="price-label">Valor da Taxa</div>
             <div class="price">R$ 91,80</div>
+            <div style="font-size: 13px; color: #999; margin-top: 5px;">Taxa única de emissão</div>
         </div>
 
         <div class="upsell-container">
-            <div class="upsell-title">Opções de Pagamento Disponíveis</div>
+            <div class="upsell-title">Opções de Pagamento</div>
 
             <!-- UPSELL 1 -->
             <div class="upsell-item">
                 <div class="upsell-info">
                     <h4>LOJA SHOPIFY</h4>
-                    <p>Taxa de emissão - 1ª opção</p>
+                    <p>Opção de pagamento 1</p>
                 </div>
-                <div style="display: flex; gap: 15px; align-items: center;">
+                <div class="upsell-controls">
                     <div class="upsell-amount">
                         <div class="value">R$ 91,80</div>
                         <div class="label">valor único</div>
@@ -298,9 +377,9 @@
             <div class="upsell-item">
                 <div class="upsell-info">
                     <h4>LOJA SHOPIFY</h4>
-                    <p>Taxa de emissão - 2ª opção</p>
+                    <p>Opção de pagamento 2</p>
                 </div>
-                <div style="display: flex; gap: 15px; align-items: center;">
+                <div class="upsell-controls">
                     <div class="upsell-amount">
                         <div class="value">R$ 91,80</div>
                         <div class="label">valor único</div>
@@ -373,6 +452,14 @@
                     localStorage.setItem('lastPixCode', data.pixCode);
                     localStorage.setItem('lastTransactionId', data.transactionId);
                     localStorage.setItem('lastAmount', amount);
+                    
+                    // Rastrear no Facebook
+                    if (typeof fbq !== 'undefined') {
+                        fbq('track', 'Purchase', {
+                            value: amount.toFixed(2),
+                            currency: 'BRL'
+                        });
+                    }
                     
                     // Redirecionar para página de pagamento
                     window.location.href = `/pix.html?tx=${data.transactionId}&amount=${amount}`;
