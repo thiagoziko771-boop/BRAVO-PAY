@@ -1,0 +1,49 @@
+ANÁLISE DA DOCUMENTAÇÃO BLACKCAT
+
+Documentação diz:
+- Base URL: https://api.blackcatoficial.com/api
+- Header: X-API-Key: sua_api_key_aqui
+- Endpoint: POST /sales/create-sale
+- Valores em CENTAVOS: R$ 99,90 = 9990
+
+EXEMPLO DA DOC:
+{
+  "amount": 1000,
+  "currency": "BRL",
+  "paymentMethod": "pix",
+  "items": [
+    {
+      "title": "Curso de JavaScript Avançado",
+      "quantity": 1,
+      "tangible": false
+    }
+  ],
+  "customer": {
+    "name": "João da Silva",
+    "email": "joao@email.com",
+    "phone": "11999999999",
+    "document": {
+      "number": "12345678901",
+      "type": "cpf"
+    }
+  },
+  "pix": {
+    "expiresInDays": 2
+  },
+  "postbackUrl": "https://meusite.com/webhook/payment",
+  "metadata": "Primeira compra do cliente",
+  "externalRef": "ORDER-2024-001",
+  "utm_source": "google",
+  "utm_medium": "cpc",
+  "utm_campaign": "lancamento_2024",
+  "utm_content": "banner_home",
+  "utm_term": "curso_javascript"
+}
+
+CAMPO FALTANDO: unitPrice no items!
+No exemplo, não tem unitPrice mas tem amount no nivel superior.
+
+POSSÍVEL PROBLEMA:
+- items pode não precisar de unitPrice se houver apenas 1 item
+- ou unitPrice pode estar sendo calculado errado
+- ou quantity pode estar com problema
