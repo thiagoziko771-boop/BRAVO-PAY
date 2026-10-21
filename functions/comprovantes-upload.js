@@ -60,12 +60,47 @@ exports.handler = async (event) => {
   try {
     const supabase = getSupabase();
     
+    // Se houver arquivo (base64 ou URL)
+    let storagePath = null;
+    if (body.arquivo) {
+      try {
+        // Extrair base64 da imagem
+        const base64Data = body.arquivo.split(',')[1] || body.arquivo;
+        const buffer = Buffer.from(base64Data, 'base64');
+        
+        // Upload pra Storage do Supabase
+        const fileName = `comprovante_${body.transaction_id || Date.now()}.jpg`;
+        const { data: uploadData, error: uploadError } = await supabase
+          .storage
+          .from('comprovantes')
+          .upload(fileName, buffer, {
+            contentType: 'image/jpeg',
+            upsert: false
+          });
+        
+        if (uploadError) {
+          console.warn("[COMPROVANTE-UPLOAD] Aviso ao fazer upload pro Storage:", uploadError.message);
+        } else {
+          // Gerar URL pública
+          const { data: publicUrl } = supabase
+            .storage
+            .from('comprovantes')
+            .getPublicUrl(fileName);
+          
+          storagePath = publicUrl.publicUrl;
+          console.log("[COMPROVANTE-UPLOAD] ✅ Arquivo armazenado no Storage:", storagePath);
+        }
+      } catch (err) {
+        console.warn("[COMPROVANTE-UPLOAD] Erro ao processar arquivo:", err.message);
+      }
+    }
+    
     // Inserir comprovante na Supabase
     const { data, error } = await supabase.from("comprovantes").insert({
       transaction_id: body.transaction_id || body.id || null,
       cpf:    body.cpf || body.customer_cpf || null,
       nome:   body.nome || body.customer_name || null,
-      arquivo: body.arquivo || body.file || body.url || null,
+      arquivo: storagePath || body.arquivo || body.file || body.url || null,
       status: "pending_approval",
       created_at: new Date().toISOString(),
       extra: {
@@ -104,8 +139,7 @@ exports.handler = async (event) => {
     return jsonResponse(200, { 
       success: true,
       message: "Comprovante recebido com sucesso",
-      transaction_id: body.transaction_id,
-      redirectUrl: "/success?status=comprovante_enviado&tx=" + (body.transaction_id || "")
+      transaction_id: body.transaction_id
     });
     
   } catch (err) {
